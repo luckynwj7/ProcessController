@@ -6,8 +6,8 @@ namespace ProcessController
     {
         public static void SetNotifyMenu(NotifyIconHandler notifyObj)
         {
-            notifyObj.SetNotifyItemFunc(0, "미지정 기능", NotifyMethod1);
-            notifyObj.SetNotifyItemFunc(1, "프로그램 종료", NotifyMethod2);
+            notifyObj.SetNotifyItemFunc(0, StringResource.notifyMenuItem0, NotifyMethod1);
+            notifyObj.SetNotifyItemFunc(1, StringResource.notifyMenuItem1, NotifyMethod2);
         }
 
 

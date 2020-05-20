@@ -54,7 +54,8 @@ namespace ProcessController
             get { return currentPasswordPath; }
         }
         public static readonly string passwordEncryptionKey = "R+eBzV276RIMdqaijDID6g==";
-        public static readonly string masterPassKey = "MasterPass";
+        //public static readonly string masterPassKey = "OGdkxWFBMYLK7hx6AtVM3rop/+eia0YKaet6S2zoskM="; // ==> "MasterPass"
+        public static readonly string emergencyExitKey = "iwillexitthisapp";
 
         private NotifyIconHandler myNotify;
         private void Application_Startup(object sender, StartupEventArgs e)
@@ -74,11 +75,11 @@ namespace ProcessController
             }
 
             // 노티파이 메뉴 만들기
-            NotifyIconHandler.SetNotifyObj(2, "WPF", ProcessController.Properties.Resources.defaultIcon, NotifyMenuMethod.NotifyTitleMethod);
+            NotifyIconHandler.SetNotifyObj(2, StringResource.notifyMenuTitle, ProcessController.Properties.Resources.defaultIcon, NotifyMenuMethod.NotifyTitleMethod);
             myNotify = NotifyIconHandler.NotifyObj;
             NotifyMenuMethod.SetNotifyMenu(myNotify);
 
-            currentPasswordPath = System.Windows.Forms.Application.StartupPath + "\\password.pass";
+            currentPasswordPath = System.Windows.Forms.Application.StartupPath + "\\" + StringResource.passwordFileName;
             
             // 비밀번호 파일 읽기 (없으면 새로 생성)
             if (System.IO.File.Exists(currentPasswordPath))
@@ -88,23 +89,25 @@ namespace ProcessController
             }
             else
             {
+                /*
                 FileStream myFile = System.IO.File.Create(currentPasswordPath);
                 myFile.Close();
-                string prevPass = PasswordEncryption.EncrypString(masterPassKey, passwordEncryptionKey);
-                System.IO.File.WriteAllText(currentPasswordPath, prevPass); //일단은 마스터로 
-                password = masterPassKey;
+                System.IO.File.WriteAllText(currentPasswordPath, blockPassKey); //차단 파일 생성
+                password = PasswordEncryption.DecrypString(blockPassKey, passwordEncryptionKey);*/
+                MessageBox.Show("암호 파일에 직접 접근한 흔적이 있습니다. 실행을 거부합니다.");
+                System.Environment.Exit(0);
             }
 
-            if (password == masterPassKey) // 초기 마스터 비밀번호 생성코드 필요
+            if (password == "MasterPass") // 초기 마스터 비밀번호 생성코드 필요
             {
                 MessageBox.Show("첫 이용입니다. 비밀번호를 설정해주세요.");
                 passwordApplyWin = PasswordApply.GetPasswordApplyWin;
                 PasswordApplyWin.Show();
 
             }
-            else if(password == "BlockPass")
+            else if(password == emergencyExitKey)
             {
-                MessageBox.Show("임의로 암호 파일을 삭제했습니다. 실행을 거부합니다.");
+                MessageBox.Show("개발자 전용 긴급 exit 백도어");
                 System.Environment.Exit(0);
             }
             else

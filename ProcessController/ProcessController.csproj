@@ -57,6 +57,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="StringResource.cs" />
+    <Compile Include="ProcessManager.cs" />
+    <Compile Include="RealTimeEventHandler.cs" />
     <Compile Include="PasswordEncryption.cs" />
     <Compile Include="NotifyIconHandler.cs" />
     <Compile Include="NotifyMenuMethod.cs" />

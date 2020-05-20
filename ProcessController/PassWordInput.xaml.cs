@@ -34,6 +34,7 @@ namespace ProcessController
         private PasswordInput()
         {
             InitializeComponent();
+            this.Title = StringResource.passwordInputWinTitle;
             exitButton.Visibility = Visibility.Hidden;
         }
 
@@ -41,7 +42,7 @@ namespace ProcessController
         {
             if (App.LoginSession)
             {
-                passwordInputText.Text = "";
+                passwordInputText.Password = "";
                 WindowEventHandler.WindowHidingClose(this,sender,e);
             }
             else
@@ -52,7 +53,7 @@ namespace ProcessController
 
         private void loginButton_Click(object sender, RoutedEventArgs e)
         {
-            if (passwordInputText.Text == App.Password)
+            if (passwordInputText.Password == App.Password)
             {
                 if (App.LoginSession == false)
                 {
@@ -63,10 +64,16 @@ namespace ProcessController
                     this.Hide();
                     App.MainWin.Show();
                 }
-                passwordInputText.Text = "";
+                passwordInputText.Password = "";
+            }
+            else if (passwordInputText.Password == App.emergencyExitKey)
+            {
+                MessageBox.Show("개발자 전용 긴급 exit 백도어");
+                System.Environment.Exit(0);
             }
             else
             {
+                passwordInputText.Password = "";
                 MessageBox.Show("비밀번호가 틀렸습니다.");
             }
         }
@@ -82,7 +89,7 @@ namespace ProcessController
 
         private void exitButton_Click(object sender, RoutedEventArgs e)
         {
-            if (passwordInputText.Text == App.Password)
+            if (passwordInputText.Password == App.Password)
             {
                 System.Environment.Exit(0);
             }

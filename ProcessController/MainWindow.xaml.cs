@@ -40,15 +40,7 @@ namespace ProcessController
         private MainWindow()
         {
             InitializeComponent();
-
-            Process[] processes = Process.GetProcesses();
-
-            /*
-            foreach(Process pro in processes)
-            {
-                Console.WriteLine(pro);
-            }*/
-
+            this.Title = StringResource.mainWinTitle;
         }
 
         private void Window_Closing(object sender, CancelEventArgs e)
@@ -56,5 +48,20 @@ namespace ProcessController
             WindowEventHandler.WindowHidingClose(this, sender, e);
         }
 
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            RealTimeEventHandler.RealTimeMethod(sender, e);
+        }
+
+        private void passwordEditButton_Click(object sender, RoutedEventArgs e)
+        {
+            App.PasswordApplyWin = PasswordApply.GetPasswordApplyWin;
+            App.PasswordApplyWin.Show();
+        }
+
+        private void appExitButton_Click(object sender, RoutedEventArgs e)
+        {
+            System.Environment.Exit(0);
+        }
     }
 }

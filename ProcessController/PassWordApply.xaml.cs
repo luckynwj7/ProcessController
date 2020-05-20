@@ -34,14 +34,15 @@ namespace ProcessController
         private PasswordApply()
         {
             InitializeComponent();
+            this.Title = StringResource.passwordApplyWinTitle;
         }
 
         private void completeButton_Click(object sender, RoutedEventArgs e)
         {
-            string prevPass = PasswordEncryption.EncrypString(passwordInputText.Text, App.passwordEncryptionKey);
+            string prevPass = PasswordEncryption.EncrypString(passwordInputText.Password, App.passwordEncryptionKey);
             System.IO.File.WriteAllText(App.CurrentPasswordPath, prevPass);
-            App.Password = passwordInputText.Text;
-            passwordInputText.Text = "";
+            App.Password = passwordInputText.Password;
+            passwordInputText.Password = "";
             MessageBox.Show("비밀번호 변경이 완료되었습니다.");
             if (!App.LoginSession)
             {
@@ -49,6 +50,19 @@ namespace ProcessController
                 App.PasswordInputWin.PasswordInputLoginAct();
             }
             this.Close();
+        }
+
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            if (App.LoginSession)
+            {
+                passwordInputText.Password = "";
+                WindowEventHandler.WindowHidingClose(this, sender, e);
+            }
+            else
+            {
+                System.Environment.Exit(0);
+            }
         }
     }
 }

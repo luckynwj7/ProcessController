@@ -6,8 +6,21 @@
         xmlns:local="clr-namespace:ProcessController"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800"
-        Closing="Window_Closing">
+        Closing="Window_Closing"
+        Loaded="Window_Loaded">
     <Grid>
-
+        <Grid.RowDefinitions>
+            <RowDefinition Height="20"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Menu Grid.Row="0">
+            <MenuItem Header="설정">
+                <MenuItem Header="비밀번호 변경" Name="passwordEditButton" Click="passwordEditButton_Click"></MenuItem>
+                <MenuItem Header="프로그램 종료" Name="appExitButton" Click="appExitButton_Click"></MenuItem>
+            </MenuItem>
+        </Menu>
+        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Auto">
+            <TextBlock Name="processList" Text=""></TextBlock>
+        </ScrollViewer>
     </Grid>
 </Window>
