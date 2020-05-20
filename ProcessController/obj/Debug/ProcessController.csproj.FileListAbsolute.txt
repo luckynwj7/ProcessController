@@ -17,3 +17,4 @@ D:\VSProject\ProcessController\ProcessController\obj\Debug\ProcessController.csp
 D:\VSProject\ProcessController\ProcessController\obj\Debug\ProcessController.csproj.CoreCompileInputs.cache
 D:\VSProject\ProcessController\ProcessController\obj\Debug\ProcessController.exe
 D:\VSProject\ProcessController\ProcessController\obj\Debug\ProcessController.pdb
+D:\VSProject\ProcessController\ProcessController\obj\Debug\App.baml

@@ -4,15 +4,15 @@
 winexe
 C#
 .cs
-D:\VSProject\ProcessController\ProcessController\obj\Debug\
+D:\VSProject\ProcessController\ProcessController\obj\Release\
 ProcessController
 none
 false
-DEBUG;TRACE
+TRACE
 D:\VSProject\ProcessController\ProcessController\App.xaml
 31312561082
 
-12333231492
+112031519429
 151397803362
 MainWindow.xaml;PasswordApply.xaml;PasswordInput.xaml;
 

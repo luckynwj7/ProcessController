@@ -38,8 +38,9 @@ namespace ProcessController
 
         private void completeButton_Click(object sender, RoutedEventArgs e)
         {
-            System.IO.File.WriteAllText(App.CurrentPasswordPath, passwordInputText.Text);
-            App.Password = System.IO.File.ReadAllText(App.CurrentPasswordPath);
+            string prevPass = PasswordEncryption.EncrypString(passwordInputText.Text, App.passwordEncryptionKey);
+            System.IO.File.WriteAllText(App.CurrentPasswordPath, prevPass);
+            App.Password = passwordInputText.Text;
             passwordInputText.Text = "";
             MessageBox.Show("비밀번호 변경이 완료되었습니다.");
             if (!App.LoginSession)

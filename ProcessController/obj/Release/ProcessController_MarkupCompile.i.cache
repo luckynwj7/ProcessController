@@ -4,11 +4,11 @@
 winexe
 C#
 .cs
-D:\VSProject\ProcessController\ProcessController\obj\Debug\
+D:\VSProject\ProcessController\ProcessController\obj\Release\
 ProcessController
 none
 false
-DEBUG;TRACE
+TRACE
 D:\VSProject\ProcessController\ProcessController\App.xaml
 31312561082
 

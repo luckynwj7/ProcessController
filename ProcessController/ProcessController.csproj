@@ -57,6 +57,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="PasswordEncryption.cs" />
     <Compile Include="NotifyIconHandler.cs" />
     <Compile Include="NotifyMenuMethod.cs" />
     <Compile Include="PasswordApply.xaml.cs">
