@@ -39,6 +39,11 @@ namespace ProcessController
 
         private void completeButton_Click(object sender, RoutedEventArgs e)
         {
+            if(passwordInputText.Password == "")
+            {
+                MessageBox.Show("비밀번호가 입력되지 않았습니다.");
+                return;
+            }
             string prevPass = PasswordEncryption.EncrypString(passwordInputText.Password, App.passwordEncryptionKey);
             System.IO.File.WriteAllText(App.CurrentPasswordPath, prevPass);
             App.Password = passwordInputText.Password;

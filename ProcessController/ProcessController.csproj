@@ -34,10 +34,15 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>Resources\notifyIcon.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
@@ -57,6 +62,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="BootOptionManager.cs" />
     <Compile Include="StringResource.cs" />
     <Compile Include="ProcessManager.cs" />
     <Compile Include="RealTimeEventHandler.cs" />
@@ -120,6 +126,21 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\defaultIcon.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\notifyIcon .ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\notifyIcon.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\notifyIcon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\titleIcon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="titleIcon.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

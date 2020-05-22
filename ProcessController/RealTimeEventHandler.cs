@@ -19,7 +19,6 @@ namespace ProcessController
         }
         private static void TimerTick(object sender, EventArgs e)
         {
-            ProcessManager.ProcessRead();
             ProcessManager.ProcessesKill();
         }
     }

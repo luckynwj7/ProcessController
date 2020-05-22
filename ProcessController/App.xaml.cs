@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Win32;
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
@@ -57,6 +58,12 @@ namespace ProcessController
         //public static readonly string masterPassKey = "OGdkxWFBMYLK7hx6AtVM3rop/+eia0YKaet6S2zoskM="; // ==> "MasterPass"
         public static readonly string emergencyExitKey = "iwillexitthisapp";
 
+        private static BootOptionManager appBootOptionManager;
+        public static BootOptionManager AppBootOptionManager
+        {
+            get { return appBootOptionManager; }
+        }
+
         private NotifyIconHandler myNotify;
         private void Application_Startup(object sender, StartupEventArgs e)
         {
@@ -75,12 +82,15 @@ namespace ProcessController
             }
 
             // 노티파이 메뉴 만들기
-            NotifyIconHandler.SetNotifyObj(2, StringResource.notifyMenuTitle, ProcessController.Properties.Resources.defaultIcon, NotifyMenuMethod.NotifyTitleMethod);
+            NotifyIconHandler.SetNotifyObj(2, StringResource.notifyMenuTitle, ProcessController.Properties.Resources.notifyIcon, NotifyMenuMethod.NotifyTitleMethod);
             myNotify = NotifyIconHandler.NotifyObj;
             NotifyMenuMethod.SetNotifyMenu(myNotify);
 
-            currentPasswordPath = System.Windows.Forms.Application.StartupPath + "\\" + StringResource.passwordFileName;
+            // 부팅 옵션 처리
+            appBootOptionManager = new BootOptionManager();
             
+            currentPasswordPath = System.Windows.Forms.Application.StartupPath + "\\" + StringResource.passwordFileName;
+
             // 비밀번호 파일 읽기 (없으면 새로 생성)
             if (System.IO.File.Exists(currentPasswordPath))
             {
@@ -98,12 +108,23 @@ namespace ProcessController
                 System.Environment.Exit(0);
             }
 
+
+
             if (password == "MasterPass") // 초기 마스터 비밀번호 생성코드 필요
             {
                 MessageBox.Show("첫 이용입니다. 비밀번호를 설정해주세요.");
                 passwordApplyWin = PasswordApply.GetPasswordApplyWin;
                 PasswordApplyWin.Show();
 
+            }
+            else if (appBootOptionManager.AutoBootingOption)
+            {
+                // 자동 로그인
+                LoginSession = true;
+                passwordInputWin = PasswordInput.GetPasswordInputWin;
+                PasswordInputWin.PasswordInputLoginAct();
+                MainWin.Hide();
+                MessageBox.Show(StringResource.appTitle + "가 실행중입니다.");
             }
             else if(password == emergencyExitKey)
             {
