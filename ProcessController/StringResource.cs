@@ -20,8 +20,9 @@ namespace ProcessController
         public static readonly string passwordFileName = "password.pass";
         public static readonly string bootOptionFileName = "bootStart.option";
         public static readonly string blockProcessFileName = "blockProcess.list";
+        public static readonly string canBlockProcessFileName = "availableProcess.txt";
 
-
+        /*
         public static readonly List<string> blockProcessesName = new List<string>()
         {
                 "chrome",
@@ -32,6 +33,6 @@ namespace ProcessController
                 "Hpdf",
                 "MicrosoftEdge",
                 "Taskmgr"
-        };
+        };*/
     }
 }

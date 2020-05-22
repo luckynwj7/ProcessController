@@ -42,10 +42,10 @@ namespace ProcessController
             {
                 FileStream myFile = System.IO.File.Create(currentBootOptionFilePath);
                 myFile.Close();
-                string prevPass = PasswordEncryption.EncrypString("false", App.passwordEncryptionKey);
-                System.IO.File.WriteAllText(currentBootOptionFilePath, prevPass); //false로 기본 파일 생성
-                autoBootingOption = false;
-                runRegKey.SetValue("ProcessController", false);
+                string prevPass = PasswordEncryption.EncrypString("true", App.passwordEncryptionKey);
+                System.IO.File.WriteAllText(currentBootOptionFilePath, prevPass); //true로 기본 파일 생성
+                autoBootingOption = true;
+                runRegKey.SetValue("ProcessController", true);
             }
         }
         public void ChangeBootOption(bool flag)

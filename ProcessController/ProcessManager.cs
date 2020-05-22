@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
@@ -16,6 +17,11 @@ namespace ProcessController
 {
     public static class ProcessManager
     {
+        private static List<string> blockProcessName = new List<string>();
+        public static List<string> BlockProcessName
+        {
+            get { return blockProcessName; }
+        }
         private static void ProcessKill(string blockProcessName)
         {
             Process[] myProcesses = Process.GetProcessesByName(blockProcessName);
@@ -64,6 +70,7 @@ namespace ProcessController
                     listBox.Children.Add(new ToggleButton());
                     (listBox.Children[listBox.Children.Count - 1] as ToggleButton).Background = Brushes.White;
                     (listBox.Children[listBox.Children.Count - 1] as ToggleButton).Content = showName;
+                    (listBox.Children[listBox.Children.Count - 1] as ToggleButton).Height = 30;
                 }
             }
         }
@@ -85,6 +92,30 @@ namespace ProcessController
                     inFileList.Remove(addedProcess);
                     outFileList.Add(addedProcess);
                 }
+            }
+        }
+        
+        public static void ReadBlockProcessName()
+        {
+            blockProcessName = null;
+            blockProcessName = new List<string>();
+            string filePath = System.Windows.Forms.Application.StartupPath + "\\" + StringResource.canBlockProcessFileName;
+            if (System.IO.File.Exists(filePath))
+            {
+                string prevPass = System.IO.File.ReadAllText(filePath);
+                if (prevPass != "")
+                {
+                    string[] words = prevPass.Split(new string[] { "\r\n", "\n"}, StringSplitOptions.None );
+                    foreach(string str in words)
+                    {
+                        blockProcessName.Add(str);
+                        Console.WriteLine("추가됨 : " + str);
+                    }
+                }
+            }
+            else
+            {
+                FileStream myFile = System.IO.File.Create(filePath);
             }
         }
     }

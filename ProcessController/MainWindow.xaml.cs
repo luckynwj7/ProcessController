@@ -45,7 +45,6 @@ namespace ProcessController
         public List<string> FinalBlockList
         {
             get { return finalBlockList; }
-            set { finalBlockList = value; }
         }
 
 
@@ -65,7 +64,7 @@ namespace ProcessController
         {
             InitializeComponent();
             this.Title = StringResource.mainWinTitle;
-            noneBlockFileList = StringResource.blockProcessesName;
+            noneBlockFileList = ProcessManager.BlockProcessName;
             noneBlockFileList.Sort();
 
             // 차단 프로세스 리스트 파일 읽기 (없으면 새로 생성)

@@ -57,6 +57,7 @@ namespace ProcessController
         public static readonly string passwordEncryptionKey = "R+eBzV276RIMdqaijDID6g==";
         //public static readonly string masterPassKey = "OGdkxWFBMYLK7hx6AtVM3rop/+eia0YKaet6S2zoskM="; // ==> "MasterPass"
         public static readonly string emergencyExitKey = "iwillexitthisapp";
+        public static readonly string blockPassKey = "BlockPass"; // ==> "BlockPass"
 
         private static BootOptionManager appBootOptionManager;
         public static BootOptionManager AppBootOptionManager
@@ -88,14 +89,24 @@ namespace ProcessController
 
             // 부팅 옵션 처리
             appBootOptionManager = new BootOptionManager();
+
+            // 블록 프로세스 읽기
+            ProcessManager.ReadBlockProcessName();
             
             currentPasswordPath = System.Windows.Forms.Application.StartupPath + "\\" + StringResource.passwordFileName;
 
-            // 비밀번호 파일 읽기 (없으면 새로 생성)
+            // 비밀번호 파일 읽기
             if (System.IO.File.Exists(currentPasswordPath))
             {
                 string prevPass = System.IO.File.ReadAllText(currentPasswordPath);
-                password = PasswordEncryption.DecrypString(prevPass, passwordEncryptionKey);
+                if(prevPass != "")
+                {
+                    password = PasswordEncryption.DecrypString(prevPass, passwordEncryptionKey);
+                }
+                else
+                {
+                    password = "";
+                }
             }
             else
             {
@@ -104,13 +115,25 @@ namespace ProcessController
                 myFile.Close();
                 System.IO.File.WriteAllText(currentPasswordPath, blockPassKey); //차단 파일 생성
                 password = PasswordEncryption.DecrypString(blockPassKey, passwordEncryptionKey);*/
-                MessageBox.Show("암호 파일에 직접 접근한 흔적이 있습니다. 실행을 거부합니다.");
-                System.Environment.Exit(0);
+                MessageBox.Show("암호 파일에 직접 접근한 흔적이 있습니다. 마스터 암호로 실행해주세요.");
+                FileStream myFile = System.IO.File.Create(currentPasswordPath);
+                myFile.Close();
+                string prevPass = PasswordEncryption.EncrypString(blockPassKey, passwordEncryptionKey);
+                System.IO.File.WriteAllText(currentPasswordPath, prevPass); //차단 파일 생성
+                password = blockPassKey;
+                AutoLogin();
             }
 
 
-
-            if (password == "MasterPass") // 초기 마스터 비밀번호 생성코드 필요
+            if (password == "")
+            {
+                MessageBox.Show("암호 파일에 직접 접근한 흔적이 있습니다. 마스터 암호로 실행해주세요.");
+                string prevPass = PasswordEncryption.EncrypString(blockPassKey, passwordEncryptionKey);
+                System.IO.File.WriteAllText(currentPasswordPath, prevPass); //차단 파일 생성
+                password = blockPassKey;
+                AutoLogin();
+            }
+            else if (password == "MasterPass") // 초기 마스터 비밀번호 생성코드 필요
             {
                 MessageBox.Show("첫 이용입니다. 비밀번호를 설정해주세요.");
                 passwordApplyWin = PasswordApply.GetPasswordApplyWin;
@@ -120,11 +143,8 @@ namespace ProcessController
             else if (appBootOptionManager.AutoBootingOption)
             {
                 // 자동 로그인
-                LoginSession = true;
-                passwordInputWin = PasswordInput.GetPasswordInputWin;
-                PasswordInputWin.PasswordInputLoginAct();
-                MainWin.Hide();
-                MessageBox.Show(StringResource.appTitle + "가 실행중입니다.");
+                AutoLogin();
+                MessageBox.Show(StringResource.appTitle + "가 실행됩니다.");
             }
             else if(password == emergencyExitKey)
             {
@@ -137,6 +157,14 @@ namespace ProcessController
                 passwordInputWin = PasswordInput.GetPasswordInputWin;
                 passwordInputWin.Show();
             }
+        }
+
+        private void AutoLogin()
+        {
+            LoginSession = true;
+            passwordInputWin = PasswordInput.GetPasswordInputWin;
+            PasswordInputWin.PasswordInputLoginAct();
+            MainWin.Hide();
         }
     }
 
